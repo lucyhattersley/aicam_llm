@@ -13,7 +13,7 @@ device.deploy(model)
 
 with device as stream:
     for frame in stream:
-        frame.display() # Displays preview window
+        # frame.display() # Uncomment to display preview window
                 
         # Filter confident detections
         detections = frame.detections[frame.detections.confidence > CONFIDENCE_THRESHOLD]

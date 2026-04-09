@@ -13,14 +13,17 @@ device.deploy(model)
 
 with device as stream:
     for frame in stream:
-        frame.display() # Display preview window
-                
+        # frame.display() # Uncomment to display preview window
+        
+        # Filter confident detections            
         detections = frame.detections[frame.detections.confidence > CONFIDENCE_THRESHOLD]
         labels = [f"{model.labels[c]} ({s:.2f})" for _, s, c, _ in detections]
 
+        # Build a natural prompt
         prompt = f"You have access to a smart camera in a vending machine. At {time.strftime('%H:%M:%S')}, the camera detected: {labels} Provide information on the stock levels of the vending machine."
         print("Prompt to LLM:", prompt)
-
+        
+        # Ask the LLM for a summary
         response = client.responses.create(
             model="gpt-4o-mini",
             input=prompt
